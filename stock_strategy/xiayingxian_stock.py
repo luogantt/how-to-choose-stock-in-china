@@ -75,9 +75,10 @@ def polyfit(c,k):
 def potential_index(tl):
 
     #df=ts.get_hist_data(name,start=bf,end=now)
-    df=ts.get_hist_data(tl[0],start=tl[1],end=tl[2])
+    #df=ts.get_hist_data(tl[0],start=tl[1],end=tl[2])
 
-
+    df=tl[0]
+    tt=tl[1]
 
     if str(type(df))!="<class 'NoneType'>":
 
@@ -125,7 +126,7 @@ def potential_index(tl):
                 #db1.save({'name':tl[0]})
 
 
-                tt=before_month_lastday(tl[2],0)
+                #tt=before_month_lastday(tl[2],0)
 
                 #db1.save({'name':tl[0],'potential':vv})
                 #return vv*1.0
@@ -134,7 +135,7 @@ def potential_index(tl):
 
                     {"name":tl[0],"date":tt},
 
-                    {  "name":tl[0],"date":tt,'ratio':round(ra,2)
+                    {  "name":tl[2],"date":tt,'ratio':round(ra,2)
                             },True
                     )
 
@@ -148,7 +149,7 @@ def potential_index(tl):
 
 #mm=potential_index(code[100])
 
-
+'''
 ak=ts.get_stock_basics()
 
 code=list(ak.index)
@@ -181,6 +182,9 @@ from multiprocessing import Pool
 import numpy as np
 
 te =sheet.values
+'''
+
+
 
 ''' 
 for name in te:
@@ -188,6 +192,10 @@ for name in te:
 
     mm=potential_index(name)
     #print(name,mm)
+
+
+'''
+
 
 
 '''
@@ -201,3 +209,4 @@ if __name__ == "__main__" :
   pool.join()   
   endTime = time.time()
   print ("time :", endTime - startTime)
+'''

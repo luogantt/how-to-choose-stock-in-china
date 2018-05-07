@@ -9,6 +9,10 @@ Created on Sun May  6 22:47:58 2018
 import potential as pl
 
 import ma250 as ma
+import time 
 
+t1=time.time()
 ma.uu()
+
 pl.oo()
+print(time.time()-t1)

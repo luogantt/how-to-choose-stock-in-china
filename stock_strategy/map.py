@@ -38,10 +38,15 @@ db1 = client1.stock.ma250
 
 import potential
 import ma250
+import xiayingxian_stock
 
-def fff(tl):
-    potential.potential_index(tl)
-    ma250.potential_index(tl)
+def fff(qq):
+    df=ts.get_hist_data(qq[0],start=qq[1],end=qq[2])
+    
+    pp=[df,qq[2],qq[0]]
+    potential.potential_index(pp)
+    ma250.potential_index(pp)
+    xiayingxian_stock.potential_index(pp)
 
 
 ak=ts.get_stock_basics()
@@ -78,12 +83,12 @@ import numpy as np
 
 te =sheet.values
 
-'''  
+'''
 for name in te:
 
 
     mm=fff(name)
-    #print(name,mm)
+    print(name,mm)
     
 '''
 if __name__ == "__main__" :
@@ -96,4 +101,4 @@ if __name__ == "__main__" :
   pool.join()   
   endTime = time.time()
   print ("time :", endTime - startTime)
-
+ 

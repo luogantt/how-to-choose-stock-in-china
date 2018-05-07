@@ -32,7 +32,7 @@ import talib
 from dateutil.parser import parse
 import tushare as ts
 
-client1 = pymongo.MongoClient('127.0.0.1',27017)
+client1 = pymongo.MongoClient('192.168.10.182',27017)
 db1 = client1.stock.potential
 
 
@@ -66,7 +66,9 @@ def before_month_lastday(ti):
 def potential_index(tl):
 
     #df=ts.get_hist_data(name,start=bf,end=now)
-    df=ts.get_hist_data(tl[0],start=tl[1],end=tl[2])
+    #df=ts.get_hist_data(tl[0],start=tl[1],end=tl[2])
+    df=tl[0]
+    tt=tl[1]
 
     if str(type(df))!="<class 'NoneType'>":
 
@@ -85,7 +87,7 @@ def potential_index(tl):
 
             #df[df['volume']==0]=np.nan
 
-            print('df=',df)
+            #print('df=',df)
 
             """
             def myMACD(price, fastperiod=12, slowperiod=26, signalperiod=9):
@@ -168,7 +170,7 @@ def potential_index(tl):
 
             poindex=score/14
             vv=int(poindex*100)
-            db1.save({'name':tl[0],'potential':vv})
+            db1.save({'name':tl[2],'potential':vv})
             #return vv*1.0
 
 
@@ -186,7 +188,9 @@ for name in code:
     print(name,mm)
     timm=datetime.datetime.now()
 '''
-         
+ 
+
+'''        
 ak=ts.get_stock_basics()
 
 code=list(ak.index)
@@ -229,4 +233,4 @@ def oo():
      pool.join()   
      endTime = time.time()
      print ("time :", endTime - startTime)
-  
+'''  

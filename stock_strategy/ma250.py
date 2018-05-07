@@ -25,7 +25,7 @@ import talib
 from dateutil.parser import parse
 import tushare as ts
 
-client1 = pymongo.MongoClient('127.0.0.1',27017)
+client1 = pymongo.MongoClient('192.168.10.182',27017)
 db1 = client1.stock.ma250
 
 
@@ -70,7 +70,11 @@ def polyfit(c,k):
 def potential_index(tl):
 
     #df=ts.get_hist_data(name,start=bf,end=now)
-    df=ts.get_hist_data(tl[0],start=tl[1],end=tl[2])
+    #df=ts.get_hist_data(tl[0],start=tl[1],end=tl[2])
+    
+    df=tl[0]
+    
+    tt=tl[1]
 
 
 
@@ -112,7 +116,7 @@ def potential_index(tl):
                 print('name',tl[0])
 
                 #db1.insert_one({'name':tl[0],'ratio':ra})
-                db1.save({'name':tl[0]})
+                db1.save({'name':tl[2]})
 
                 print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
             #return vv*1.0
@@ -124,7 +128,7 @@ def potential_index(tl):
 
 #mm=potential_index(code[100])
 
-
+'''
 ak=ts.get_stock_basics()
 
 code=list(ak.index)
@@ -159,6 +163,8 @@ from multiprocessing import Pool
 te =sheet.values
 
 '''
+
+'''
 for name in te:
 
 
@@ -167,6 +173,7 @@ for name in te:
 '''
 
 
+'''
 def uu():
 
    startTime = time.time()
@@ -178,3 +185,4 @@ def uu():
    pool.join()   
    endTime = time.time()
    print ("time :", endTime - startTime)
+'''
