@@ -29,14 +29,13 @@ client1 = pymongo.MongoClient('192.168.10.182',27017)
 db1 = client1.stock.ma250
 
 
-'''        
-def before_month_lastday(ti):
+       
+def before_month_lastday(ti,k):
     from dateutil.parser import parse
     today=parse(str(ti))
 
     #first = datetime.date(day=1, month=today.month, year=today.year)
-    client1 = pymongo.MongoClient('192.168.10.182',27017)
-db1 = client1.stock.potential
+
     lastMonth = today - datetime.timedelta(days=0)
 
     def plus(k):
@@ -54,7 +53,7 @@ db1 = client1.stock.potential
     #pacific = pytz.timezone('Asia/Shanghai')
     #return pacific.localize(bb) 
     return int(cc)      
-'''
+
 
 def polyfit(c,k):
     #print(close)
@@ -74,7 +73,7 @@ def potential_index(tl):
     
     df=tl[0]
     
-    tt=tl[1]
+    
 
 
 
@@ -106,17 +105,31 @@ def potential_index(tl):
             kk=polyfit(s3,1)
             print('kk=',kk)
             print('ra=',ra)
+            str_date=tl[1]
+            tt=before_month_lastday(str_date,0)
+            name=tl[2]
+            
+            pp=list(closed)
+            pp1=pp[-3:]
+            
+            pk=polyfit(pp1,1)
+            
+            #if abs(ra)<0.03 and kk>0 and pk<0:
             if abs(ra)<0.03 and kk>0:
-
-
 
                 print('kk=',kk)
                 print('ra=',ra)
 
-                print('name',tl[0])
+                #print('name',tl[0])
 
                 #db1.insert_one({'name':tl[0],'ratio':ra})
-                db1.save({'name':tl[2]})
+                db1.replace_one(
+
+                                {"name":name,"date":tt},
+                            
+                                {  "name":name,"date":tt,'ratio':ra
+                                        },True
+                                )
 
                 print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
             #return vv*1.0

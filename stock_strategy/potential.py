@@ -36,14 +36,14 @@ client1 = pymongo.MongoClient('192.168.10.182',27017)
 db1 = client1.stock.potential
 
 
-'''        
-def before_month_lastday(ti):
+       
+def before_month_lastday(ti,k):
     from dateutil.parser import parse
     today=parse(str(ti))
 
     #first = datetime.date(day=1, month=today.month, year=today.year)
 
-    lastMonth = today - datetime.timedelta(days=0)
+    lastMonth = today - datetime.timedelta(days=k)
 
     def plus(k):
         if k<10:
@@ -60,7 +60,7 @@ def before_month_lastday(ti):
     #pacific = pytz.timezone('Asia/Shanghai')
     #return pacific.localize(bb) 
     return int(cc)      
-'''
+
 
 
 def potential_index(tl):
@@ -68,7 +68,7 @@ def potential_index(tl):
     #df=ts.get_hist_data(name,start=bf,end=now)
     #df=ts.get_hist_data(tl[0],start=tl[1],end=tl[2])
     df=tl[0]
-    tt=tl[1]
+    
 
     if str(type(df))!="<class 'NoneType'>":
 
@@ -170,7 +170,21 @@ def potential_index(tl):
 
             poindex=score/14
             vv=int(poindex*100)
-            db1.save({'name':tl[2],'potential':vv})
+            
+            str_date=tl[1]
+            tt=before_month_lastday(str_date,0)
+            name=tl[2]
+            
+            db1.replace_one(
+
+            {"name":name,"date":tt},
+
+            {  "name":name,"date":tt,'potential':vv
+                    },True
+            )
+    
+            
+            #db1.save({'name':tl[2],'potential':vv})
             #return vv*1.0
 
 

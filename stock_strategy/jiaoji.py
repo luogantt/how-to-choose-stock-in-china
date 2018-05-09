@@ -15,6 +15,7 @@ q={}
 b=db2.find(q)
 b1=pd.DataFrame(list(b))
 
+
 b2=set(list(b1['name']))
 
 

@@ -78,7 +78,7 @@ def potential_index(tl):
     #df=ts.get_hist_data(tl[0],start=tl[1],end=tl[2])
 
     df=tl[0]
-    tt=tl[1]
+    
 
     if str(type(df))!="<class 'NoneType'>":
 
@@ -113,6 +113,10 @@ def potential_index(tl):
 
             #print('kk=',kk)
             #print('ra=',ra)
+            
+            str_date=tl[1]
+            tt=before_month_lastday(str_date,0)
+            name=tl[2]
             if ra>=0.05:
 
 
@@ -133,7 +137,7 @@ def potential_index(tl):
 
                 db1.replace_one(
 
-                    {"name":tl[0],"date":tt},
+                    {"name":tl[2],"date":tt},
 
                     {  "name":tl[2],"date":tt,'ratio':round(ra,2)
                             },True

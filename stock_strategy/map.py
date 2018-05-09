@@ -82,13 +82,15 @@ from multiprocessing import Pool
 import numpy as np
 
 te =sheet.values
-
 '''
+t1=time.time()
 for name in te:
 
 
     mm=fff(name)
     print(name,mm)
+print(time.time()-t1)    
+
     
 '''
 if __name__ == "__main__" :
@@ -101,4 +103,3 @@ if __name__ == "__main__" :
   pool.join()   
   endTime = time.time()
   print ("time :", endTime - startTime)
- 
