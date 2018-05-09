@@ -24,8 +24,9 @@ from matplotlib.pylab import date2num
 import talib
 from dateutil.parser import parse
 import tushare as ts
+import config
 
-client1 = pymongo.MongoClient('192.168.10.182',27017)
+client1 = pymongo.MongoClient(config.ip(),27017)
 db1 = client1.stock.ma250
 
 

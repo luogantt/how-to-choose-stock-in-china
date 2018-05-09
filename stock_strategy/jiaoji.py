@@ -1,6 +1,7 @@
 import pandas as pd
 import pymongo
-client1 = pymongo.MongoClient('192.168.10.182',27017)
+import config
+client1 = pymongo.MongoClient(config.ip(),27017)
 db1 = client1.stock.potential
 
 q={}
@@ -8,7 +9,7 @@ a=db1.find(q)
 a1=pd.DataFrame(list(a))
 
 
-client1 = pymongo.MongoClient('192.168.10.182',27017)
+client1 = pymongo.MongoClient(config.ip(),27017)
 db2 = client1.stock.ma250
 
 q={}

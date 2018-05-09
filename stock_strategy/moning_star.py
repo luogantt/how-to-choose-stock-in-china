@@ -1,4 +1,10 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Sat May  5 12:43:52 2018
 
+@author: luogan
+"""
 
 # -*- coding: utf-8 -*-
 """
@@ -26,19 +32,18 @@ from dateutil.parser import parse
 import tushare as ts
 import config
 
-
 client1 = pymongo.MongoClient(config.ip(),27017)
-db1 = client1.stock.breakthrough
+db1 = client1.stock.morning_star
 
 
-       
+
 def before_month_lastday(ti,k):
     from dateutil.parser import parse
     today=parse(str(ti))
 
     #first = datetime.date(day=1, month=today.month, year=today.year)
 
-    lastMonth = today - datetime.timedelta(days=0)
+    lastMonth = today - datetime.timedelta(days=k)
 
     def plus(k):
         if k<10:
@@ -72,12 +77,9 @@ def potential_index(tl):
 
     #df=ts.get_hist_data(name,start=bf,end=now)
     #df=ts.get_hist_data(tl[0],start=tl[1],end=tl[2])
-    
+
     df=tl[0]
     
-    
-
-
 
     if str(type(df))!="<class 'NoneType'>":
 
@@ -89,46 +91,66 @@ def potential_index(tl):
             df['date']=date1
             df=df.sort_values(by='date')
 
+            #print('df=',df)
+
             #df=ts.get_k_data('002230',start='2015-01-12',end='2018-04-30')
             #提取收盘价
             closed=df['close'].values
+            opend=df['open'].values
+
+            low=df['low'].values
             #获取均线的数据，通过timeperiod参数来分别获取 5,10,20 日均线的数据。
             #ma5=talib.SMA(closed,timeperiod=30)
             #ma10=talib.SMA(closed,timeperiod=60)
             #ma250=talib.SMA(closed,timeperiod=250)
-            #p=ma250[-1]
-            n=closed[-1]
-            
-            m=closed[-150:-1]
-            
-            mmax=m.max()
+            p=closed[-2]
+            o=opend[-2]
 
-            ra=(n-mmax)/mmax
+            opp=min(p,o)
+            n=low[-2]
+            #print('p=',p)
+            #print('n=',n)
+            ra=(opp-n)/opp
 
+            #print('kk=',kk)
+            #print('ra=',ra)
+            
             str_date=tl[1]
             tt=before_month_lastday(str_date,0)
-            name=tl[2]
+            #name=tl[2]
             
+            b3=df.iloc[-3]
+            b1=df.iloc[-1]
+            b2=df.iloc[-2]
+            
+            if ra>=0.02 and b3['p_change']>0 and b1['p_change']>0 and b2['p_change']<0:
 
-            #if abs(ra)<0.03 and kk>0 and pk<0:
-            if abs(ra)<0.03 :
+
 
                 #print('kk=',kk)
                 print('ra=',ra)
 
-                #print('name',tl[0])
+                print('name',tl[0])
 
                 #db1.insert_one({'name':tl[0],'ratio':ra})
+                #db1.save({'name':tl[0]})
+
+
+                #tt=before_month_lastday(tl[2],0)
+
+                #db1.save({'name':tl[0],'potential':vv})
+                #return vv*1.0
+
                 db1.replace_one(
 
-                                {"name":name,"date":tt},
-                            
-                                {  "name":name,"date":tt,'ratio':ra
-                                        },True
-                                )
+                    {"name":tl[2],"date":tt},
+
+                    {  "name":tl[2],"date":tt,'ratio':round(ra,2)
+                            },True
+                    )
 
                 print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
-            #return vv*1.0
+                #return vv*1.0
 
 
 
@@ -167,31 +189,34 @@ sheet['sta']=now
 
 import time
 from multiprocessing import Pool
-#import numpy as np
+import numpy as np
 
 te =sheet.values
-
 '''
 
-'''
+
+
+''' 
 for name in te:
 
 
     mm=potential_index(name)
     #print(name,mm)
-'''
 
 
 '''
-def uu():
 
-   startTime = time.time()
-   testFL =sheet.values
-   #ll=code
-   pool = Pool(20)#可以同时跑10个进程
-   pool.map(potential_index,testFL)
-   pool.close()
-   pool.join()   
-   endTime = time.time()
-   print ("time :", endTime - startTime)
+
+
+'''
+if __name__ == "__main__" :
+  startTime = time.time()
+  testFL =sheet.values
+  #ll=code
+  pool = Pool(20)#可以同时跑10个进程
+  pool.map(potential_index,testFL)
+  pool.close()
+  pool.join()   
+  endTime = time.time()
+  print ("time :", endTime - startTime)
 '''
