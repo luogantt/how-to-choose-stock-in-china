@@ -19,7 +19,7 @@ b1=pd.DataFrame(list(b))
 b2=set(list(b1['name']))
 
 
-a11=a1[a1['potential']>84]
+a11=a1[a1['potential']>85]
 a2=set(list(a11['name']))
 
 c2=a2&b2

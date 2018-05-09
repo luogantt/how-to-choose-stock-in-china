@@ -39,6 +39,8 @@ db1 = client1.stock.ma250
 import potential
 import ma250
 import xiayingxian_stock
+import breakthrough
+
 
 def fff(qq):
     df=ts.get_hist_data(qq[0],start=qq[1],end=qq[2])
@@ -47,7 +49,7 @@ def fff(qq):
     potential.potential_index(pp)
     ma250.potential_index(pp)
     xiayingxian_stock.potential_index(pp)
-
+    breakthrough.potential_index(pp)
 
 ak=ts.get_stock_basics()
 
@@ -82,7 +84,7 @@ from multiprocessing import Pool
 import numpy as np
 
 te =sheet.values
-'''
+
 t1=time.time()
 for name in te:
 
@@ -103,3 +105,4 @@ if __name__ == "__main__" :
   pool.join()   
   endTime = time.time()
   print ("time :", endTime - startTime)
+'''
