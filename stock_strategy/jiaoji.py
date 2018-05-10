@@ -26,3 +26,5 @@ a2=set(list(a11['name']))
 c2=a2&b2
 
 print(c2)
+
+###########3
