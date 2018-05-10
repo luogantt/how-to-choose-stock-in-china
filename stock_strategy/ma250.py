@@ -103,6 +103,7 @@ def potential_index(tl):
             s1=pd.Series(ma250)
             s2=s1.dropna()
             s3=list(s2)
+            #the trend of moving_average
             kk=polyfit(s3,1)
             print('kk=',kk)
             print('ra=',ra)
@@ -114,9 +115,10 @@ def potential_index(tl):
             pp1=pp[-3:]
             
             pk=polyfit(pp1,1)
+            b1=df.iloc[-1]
             
             #if abs(ra)<0.03 and kk>0 and pk<0:
-            if abs(ra)<0.03 and kk>0:
+            if abs(ra)<0.03 and b1['p_change']<0 and b1['open']>p:
 
                 print('kk=',kk)
                 print('ra=',ra)
