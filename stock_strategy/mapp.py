@@ -59,14 +59,18 @@ ak=ts.get_stock_basics()
 code=list(ak.index)
 
 
-
+'''
 def front_step_time(day):
     now = datetime.datetime.now()
     front = now - datetime.timedelta(days=day)
     d1 = front.strftime('%Y-%m-%d')
     #return int(d1)
     return d1
+'''
 
+
+
+'''
 now=front_step_time(0)
 
 bf=front_step_time(720)
@@ -76,6 +80,7 @@ sheet['code']=code
 
 sheet['bf']=bf
 sheet['sta']=now
+'''
 #sheet['db']=
 #name='600354'
 #b1=potential_vocanol(name,'2017-11-14','2018-02-14')
@@ -86,7 +91,8 @@ import time
 from multiprocessing import Pool
 import numpy as np
 
-te =sheet.values
+#te =sheet.values
+
 '''
 t1=time.time()
 for name in te:
@@ -95,16 +101,71 @@ for name in te:
     mm=fff(name)
     print(name,mm)
 print(time.time()-t1)    
-
-    
+  
 '''
-if __name__ == "__main__" :
-  startTime = time.time()
-  testFL =sheet.values
-  #ll=code
-  pool = Pool(20)#可以同时跑10个进程
-  pool.map(fff,testFL)
-  pool.close()
-  pool.join()   
-  endTime = time.time()
-  print ("time :", endTime - startTime)
+
+
+def before_time(tt,day):
+    now = parse(tt)
+    front = now - datetime.timedelta(days=day)
+    d1 = front.strftime('%Y-%m-%d')
+    #return int(d1)
+    return d1
+    
+    
+    
+    
+def run_file(lasttime):
+
+        
+     now=lasttime
+      
+     bf=before_time(lasttime,450)
+    
+     sheet=pd.DataFrame()
+     sheet['code']=code
+    
+     sheet['bf']=bf
+     sheet['sta']=now
+      
+     startTime = time.time()
+     testFL =sheet.values
+      #ll=code
+     pool = Pool(6)#可以同时跑10个进程
+     pool.map(fff,testFL)
+     pool.close()
+     pool.join()   
+     endTime = time.time()
+     print ("time :", endTime - startTime)
+      
+      
+      
+def for_run_file(lasttime):
+    
+        
+     now=lasttime
+      
+     bf=before_time(lasttime,450)
+    
+     sheet=pd.DataFrame()
+     sheet['code']=code
+    
+     sheet['bf']=bf
+     sheet['sta']=now
+      
+    
+     testFL =sheet.values
+     #ll=code
+     t1=time.time()
+     for name in testFL:
+    
+    
+         mm=fff(name)
+     print(name,mm)
+     print(time.time()-t1)  
+  
+
+
+  
+      
+      
