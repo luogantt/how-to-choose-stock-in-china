@@ -40,7 +40,7 @@ dt='2018-05-10'
 
 a=[]
 
-for i in range(2):
+for i in range(300):
     a.append(before_time(dt,i))
     
 for k in a:

@@ -1,6 +1,9 @@
 import pandas as pd
 import pymongo
 import config
+
+from dateutil.parser import parse
+import datetime
 client1 = pymongo.MongoClient(config.ip(),27017)
 db1 = client1.stock.potential
 
@@ -28,3 +31,5 @@ c2=a2&b2
 print(c2)
 
 ###########3
+
+
