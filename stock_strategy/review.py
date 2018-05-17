@@ -36,11 +36,11 @@ def before_time(tt,day):
     #return int(d1)
     return d1
 
-dt='2018-05-10'
+dt='2018-05-17'
 
 a=[]
 
-for i in range(300):
+for i in range(1):
     a.append(before_time(dt,i))
     
 for k in a:

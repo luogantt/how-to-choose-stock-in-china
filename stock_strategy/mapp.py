@@ -41,6 +41,7 @@ import ma250
 import xiayingxian_stock
 import breakthrough
 import moning_star
+import double_volume
 
 
 
@@ -53,6 +54,7 @@ def fff(qq):
     xiayingxian_stock.potential_index(pp)
     breakthrough.potential_index(pp)
     moning_star.potential_index(pp)
+    double_volume.potential_index(pp)
 
 ak=ts.get_stock_basics()
 
