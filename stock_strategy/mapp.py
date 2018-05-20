@@ -42,6 +42,7 @@ import xiayingxian_stock
 import breakthrough
 import moning_star
 import double_volume
+import min_volume
 
 
 
@@ -49,12 +50,13 @@ def fff(qq):
     df=ts.get_hist_data(qq[0],start=qq[1],end=qq[2])
     
     pp=[df,qq[2],qq[0]]
-    potential.potential_index(pp)
+    #potential.potential_index(pp)
     ma250.potential_index(pp)
-    xiayingxian_stock.potential_index(pp)
-    breakthrough.potential_index(pp)
-    moning_star.potential_index(pp)
-    double_volume.potential_index(pp)
+    #xiayingxian_stock.potential_index(pp)
+    #breakthrough.potential_index(pp)
+    #moning_star.potential_index(pp)
+    #double_volume.potential_index(pp)
+    min_volume.potential_index(pp)
 
 ak=ts.get_stock_basics()
 
@@ -133,7 +135,7 @@ def run_file(lasttime):
      startTime = time.time()
      testFL =sheet.values
       #ll=code
-     pool = Pool(6)#可以同时跑10个进程
+     pool = Pool(20)#可以同时跑10个进程
      pool.map(fff,testFL)
      pool.close()
      pool.join()   

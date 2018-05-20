@@ -1,0 +1,214 @@
+
+
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Dec 14 15:26:31 2017
+
+@author: 量化之王
+"""
+
+import pymongo
+import pandas
+
+import pandas as pd
+import matplotlib.pyplot as plt  
+import numpy as np 
+import pylab as pl
+import datetime
+import matplotlib.pyplot as plt
+from matplotlib.dates import DateFormatter, WeekdayLocator, DayLocator, MONDAY,YEARLY
+from matplotlib.finance import quotes_historical_yahoo_ohlc, candlestick_ohlc
+
+from matplotlib.pylab import date2num
+
+import talib
+from dateutil.parser import parse
+import tushare as ts
+import config
+import collections
+from sklearn.cluster import KMeans
+import numpy
+client1 = pymongo.MongoClient(config.ip(),27017)
+db1 = client1.stock.min_volume
+
+
+
+
+def k_means(pp1,k):
+    
+    pv = list(pp1)
+    if len(set(pv)) > 3:
+        gf = numpy.array([pv]).T
+        estimator = KMeans(n_clusters=k)  # 构造聚类器
+        estimator.fit(gf)  # 聚类
+        label_pred = estimator.labels_  # 获取聚类标签
+        aa = collections.Counter(label_pred)
+        v = pandas.Series(aa)
+        gg = list(v)
+        index_max = gg.index(max(gg))
+
+        centroids = estimator.cluster_centers_  # 获取聚类中心
+        # inertia = estimator.inertia_ # 获取聚类准则的总和
+        center = centroids[index_max][0]
+        return (int(center))
+    else:
+        return int(pp1.mean())
+       
+def before_month_lastday(ti,k):
+    from dateutil.parser import parse
+    today=parse(str(ti))
+
+    #first = datetime.date(day=1, month=today.month, year=today.year)
+
+    lastMonth = today - datetime.timedelta(days=0)
+
+    def plus(k):
+        if k<10:
+            return '0'+str(k)
+        else:
+            return str(k)
+    y=lastMonth.year
+    m=lastMonth.month
+    d=lastMonth.day
+    #day=calendar.monthrange(y,m)[1]
+
+    cc=str(y)+plus(m)+plus(d)
+    #bb=parse(cc)
+    #pacific = pytz.timezone('Asia/Shanghai')
+    #return pacific.localize(bb) 
+    return int(cc)      
+
+
+def polyfit(c,k):
+    #print(close)
+
+    xlist=list(range(len(c)))
+    bbz1 = np.polyfit(xlist, c,k)
+    # 生成多项式对象{
+    #bbp1 = np.poly1d(bbz1)
+    #f5=bbp1(pl-1)
+    #f6=bbp1(pl)
+    return bbz1[0]
+
+def potential_index(tl):
+
+    #df=ts.get_hist_data(name,start=bf,end=now)
+    #df=ts.get_hist_data(tl[0],start=tl[1],end=tl[2])
+    
+    df=tl[0]
+    #print(df)
+    
+    
+
+
+
+    if str(type(df))!="<class 'NoneType'>":
+
+        if df.shape[0]>250:
+
+            date=df.index
+            date1=list(map(parse,date))
+
+            df['date']=date1
+            df=df.sort_values(by='date')
+
+            #df=ts.get_k_data('002230',start='2015-01-12',end='2018-04-30')
+            #提取收盘价
+            volume=df['volume'].values
+            
+            v1=volume[-1]
+            v22=volume[-2]
+            v2=df['volume'].dropna()
+            v3=k_means(v2,3)
+            p_change=df['p_change'].values
+            str_date=tl[1]
+            tt=before_month_lastday(str_date,0)
+            #if abs(ra)<0.03 and kk>0 and pk<0:
+            name=tl[2]
+            ra=v1/v3
+            print(name,tt)
+            
+            if (ra<1.1 and v1<v22 )and p_change[-1]<-0.5:
+
+
+
+                #print('name',tl[0])
+
+                #db1.insert_one({'name':tl[0],'ratio':ra})
+                print(name,tt)
+                db1.replace_one(
+
+                                {"name":name,"date":tt},
+                            
+                                {  "name":name,"date":tt,'ratio':float(ra),'p_change': float(p_change[-1])
+                                        },True
+                                )
+
+                print('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
+            #return vv*1.0
+
+
+
+
+
+
+#mm=potential_index(code[100])
+
+'''
+ak=ts.get_stock_basics()
+
+code=list(ak.index)
+
+
+
+def front_step_time(day):
+    now = datetime.datetime.now()
+    front = now - datetime.timedelta(days=day)
+    d1 = front.strftime('%Y-%m-%d')
+    #return int(d1)
+    return d1
+
+now=front_step_time(0)
+
+bf=front_step_time(720)
+
+sheet=pd.DataFrame()
+sheet['code']=code
+
+sheet['bf']=bf
+sheet['sta']=now
+#name='600354'
+#b1=potential_vocanol(name,'2017-11-14','2018-02-14')
+#b2=potential_vocanol(name,'2018-02-14','2018-04-13')
+
+
+import time
+from multiprocessing import Pool
+#import numpy as np
+
+te =sheet.values
+
+'''
+
+'''
+for name in te:
+
+
+    mm=potential_index(name)
+    #print(name,mm)
+'''
+
+
+'''
+def uu():
+
+   startTime = time.time()
+   testFL =sheet.values
+   #ll=code
+   pool = Pool(20)#可以同时跑10个进程
+   pool.map(potential_index,testFL)
+   pool.close()
+   pool.join()   
+   endTime = time.time()
+   print ("time :", endTime - startTime)
+'''

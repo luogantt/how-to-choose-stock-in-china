@@ -17,7 +17,7 @@ import tushare as ts
 
 
 client1 = pymongo.MongoClient(config.ip(),27017)
-db2 = client1.stock.ma250
+db2 = client1.stock.min_volume
 
 
 def before_month_lastday(ti,k):
@@ -127,29 +127,31 @@ def ratio(w1):
                         #print(v1,b1,k)
                         #if df['p_change'].iloc[0]>0 or b1>v1:
                             #g.append(1)
-                        if b1/v1>=1.005:
+                        if b1/v1>=1.02:
                             g.append(1)
-                        
+    print('w1=',w1)                   
     vvv=int (100*len(g)/len(w1) )                
     print('win ratio is ' ,vvv)
     return vvv
 
 
-dt='2018-05-10'
+dt='2018-05-17'
 
 q1=creat_time_series(dt)
 
 win_sum=[]
 for m in q1:
     w1=ppp(m)
-    d=ratio(w1)
-    win_sum.append(d)
+    if len(w1)>0:
+        d=ratio(w1)
+        
+        win_sum.append(d)
 wpd=pd.Series(win_sum)
 wpd1=wpd[wpd>0]
 
 wpdk=wpd1.sum()
 
-all_score=int (100*wpdk/len(wpd1))
+all_score=int (wpdk/len(wpd1))
 
 print('consider all the time,the acurracy is',all_score)
     

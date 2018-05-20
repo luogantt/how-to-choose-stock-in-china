@@ -40,10 +40,13 @@ dt='2018-05-17'
 
 a=[]
 
-for i in range(1):
+
+for i in range(60):
     a.append(before_time(dt,i))
-    
+ 
 for k in a:
     mapp.run_file(k)
+    
+
 
     
