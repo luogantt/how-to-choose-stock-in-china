@@ -36,7 +36,7 @@ def before_time(tt,day):
     #return int(d1)
     return d1
 
-dt='2018-05-17'
+dt='2018-05-12'
 
 a=[]
 

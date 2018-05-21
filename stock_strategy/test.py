@@ -127,7 +127,7 @@ def ratio(w1):
                         #print(v1,b1,k)
                         #if df['p_change'].iloc[0]>0 or b1>v1:
                             #g.append(1)
-                        if b1/v1>=1.02:
+                        if b1/v1>=1.01:
                             g.append(1)
     print('w1=',w1)                   
     vvv=int (100*len(g)/len(w1) )                
@@ -143,7 +143,7 @@ win_sum=[]
 for m in q1:
     w1=ppp(m)
     if len(w1)>0:
-        d=ratio(w1)
+        d=ratio(w1.iloc[:30])
         
         win_sum.append(d)
 wpd=pd.Series(win_sum)
