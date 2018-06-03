@@ -43,6 +43,8 @@ import breakthrough
 import moning_star
 import double_volume
 import min_volume
+import five_days_decrease
+import price_volume_ratio
 
 
 
@@ -51,12 +53,14 @@ def fff(qq):
     
     pp=[df,qq[2],qq[0]]
     #potential.potential_index(pp)
-    ma250.potential_index(pp)
+    #ma250.potential_index(pp)
     #xiayingxian_stock.potential_index(pp)
     #breakthrough.potential_index(pp)
     #moning_star.potential_index(pp)
     #double_volume.potential_index(pp)
     min_volume.potential_index(pp)
+    five_days_decrease.potential_index(pp)
+    price_volume_ratio.potential_index(pp)
 
 ak=ts.get_stock_basics()
 
